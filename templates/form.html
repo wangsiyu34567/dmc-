@@ -1,0 +1,26 @@
+<link rel="stylesheet" href="/static/css/add_change.css">
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-lg-offset-3">
+            <form action="" method="post" novalidate enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for item in form %}
+                    <div style="position: relative">
+                        <label for="{{ item.auto_id }}">{{ item.label }}</label>
+                        {{ item }} <span class="error pull-right">{{ item.errors.0 }}</span>
+                        {% if item.is_pop %}
+                            <a onclick="pop('{{ item.url }}')" style="position: absolute;top: 20px;right: -30px;font-size: 28px;cursor:pointer"><span>+</span></a>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-success pull-right">提交</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="/static/js/add_change.js"></script>
+<script>
+    function pop(url) {
+        window.open(url,"","width=600px, height=400px")
+    }
+</script>

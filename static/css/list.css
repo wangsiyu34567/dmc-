@@ -1,0 +1,13 @@
+#action_list {
+    width: 150px;
+    padding: 5px 8px;
+}
+
+.filter a {
+    text-decoration: none;
+    color: gray;
+}
+
+._active {
+    color: purple !important;
+}

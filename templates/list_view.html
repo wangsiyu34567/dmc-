@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查看</title>
+    <link rel="stylesheet" href="/static/bootstrap-3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/list.css">
+    <script src="/static/jquery-3.3.1_min.js"></script>
+    <script src="/static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-9">
+            <a href="{{ add_url }}" class="btn btn-primary">添加数据</a>
+            {% if showlist.config.search_fields %}
+                <form action="" class="pull-right">
+                    <input type="text" name="q" value="{{ showlist.config.key_words }}">
+                    <button>搜索</button>
+                </form>
+            {% endif %}
+            <form action="" method="post">
+                {% csrf_token %}
+                <select name="action" id="action_list">
+                    <option value="">----------------</option>
+                    {% for item in showlist.get_action_list %}
+                        <option value="{{ item.name }}">{{ item.desc }}</option>
+                    {% endfor %}
+                </select>
+                <button class="btn btn-info">Go</button>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        {% for item in showlist.get_header %}
+                            <th>{{ item }}</th>
+                        {% endfor %}
+                    </tr>
+
+                    </thead>
+                    <tbody>
+                    {% for data in showlist.get_body %}
+                        <tr>
+                            {% for item in data %}
+                                <td>{{ item }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <nav>
+                    <ul class="pagination">
+                        {{ showlist.pagination.page_html|safe }}
+                    </ul>
+                </nav>
+            </form>
+        </div>
+        <div class="col-lg-3">
+            {% if showlist.config.list_filter %}
+                <div class="filter">
+                    <h4>Filter</h4>
+                    {% for filter_field,link_tag in showlist.get_filter_linktags.items %}
+                        <div class="well">
+                            <p>{{ filter_field.upper }}</p>
+                            {% for link in link_tag %}
+                                <p>{{ link|safe }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    $("#choice").click(function () {
+        if ($(this).prop("checked")) {
+            $('.choice_item').prop("checked", true)
+        } else {
+            $('.choice_item').prop("checked", false)
+        }
+    })
+</script>
+</html>
